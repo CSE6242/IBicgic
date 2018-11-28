@@ -5,10 +5,14 @@ import { Bar } from 'react-chartjs-2';
 export class VertBarChart extends Component {
     constructor(props){
 	super(props);
-	console.log(props);
 	this.chartData = props.chartData;
 	this.showPercent = props.showPercent;
-	let sum = this.chartData["datasets"][0]["data"].reduce((a,b)=>(a+b));
+    }
+    render() {
+
+	console.log(this.showPercent);
+
+	let sum = this.props.chartData["datasets"][0]["data"].reduce((a,b)=>(a+b));
 	this.chartOptions = {
 	    maintainAspectRatio: false,
 	    tooltips: {
@@ -16,7 +20,7 @@ export class VertBarChart extends Component {
 		callbacks: {
 		    label: function(tooltipItem, data) {
 			let t = ((tooltipItem.yLabel / sum * 100).toFixed(2));
-			return data["datasets"][0]["label"] + ' ' + tooltipItem.yLabel + ((props.showPercent)?(' ' + t + '%'):'');
+			return data["datasets"][0]["label"] + ' ' + tooltipItem.yLabel + ((this.showPercent)?(' ' + t + '%'):'');
 		    },
 		    title: function(tooltipItems, data) {
 			return tooltipItems[0].xLabel + '~' + (parseInt(tooltipItems[0].xLabel) + 1) + ' min' ;
@@ -37,14 +41,11 @@ export class VertBarChart extends Component {
 		    alert(item[0]._index + ' clicked');
 	    }
 	};
-    }
 
-    render() {
-	console.log(this.showPercent);
 	return (
 		<div>
 		<h2>Distribution of riding time</h2>
-		<Bar data={this.chartData} width={200} height={350} options={this.chartOptions}/>
+		<Bar data={this.props.chartData} width={200} height={350} options={this.chartOptions}/>
 		</div>
 	);
     }
