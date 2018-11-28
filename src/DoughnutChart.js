@@ -10,6 +10,7 @@ export class MyDoughnutChart extends Component {
 
     render()
     {
+	let f = this.props.f;
 	this.chartOptions = {
 	    responsive: true,
 	    legend: {
@@ -20,9 +21,12 @@ export class MyDoughnutChart extends Component {
 		text: 'Chart.js Doughnut Chart'
 	    },
             onClick: function(e, item){
-              console.log(item[0]);
-              if (item.length > 0)
-                alert(item[0]._index + ' clicked');
+              if (item[0] != undefined) {
+                console.log(item[0]);
+                // if (item.length > 0)
+                //   alert(item[0]._index + ' clicked');
+                f(e,item);
+              }
             },
 	    animation: {
 		animateScale: true,
