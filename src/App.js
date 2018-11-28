@@ -1,28 +1,41 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import Header from './shared/header/header';
+import Main from './shared/main/main';
+
+import ChartContainer from './chart/container';
+
+import './App.scss';
+
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor() {
+        super();
+        this.state={
+            route: [
+                { nav: "overview", component: ChartContainer}, 
+                { nav: "activity", component: ChartContainer}, 
+                { nav: "daily_trip", component: ChartContainer}, 
+                { nav: "station_analysis", component: ChartContainer}, 
+                { nav: "clustering", component: ChartContainer}, 
+                { nav: "prediction", component: ChartContainer}
+            ]
+        }
+    } 
+
+    navbarToggle() {
+        let link = document.querySelector(this);
+        link.style.className="active";
+    }
+
+    render() {   
+        return (
+            <div className="App">
+                <Header menu={this.state.route} />
+                <Main route={this.state.route} />
+            </div>
+        );
+    }
 }
 
 export default App;
