@@ -108,7 +108,7 @@ class BarChart extends Component {
             <ReactEcharts
                 option={this.getOption()}
                 lazyUpdate={true}
-                style={{height: '300px', width: '30vw'}}
+                style={{height: '300px', width: '35vw'}}
                 theme={"my_theme"}
                 className={"bar-chart"}
                 showLoading={false}

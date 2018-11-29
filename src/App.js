@@ -20,7 +20,6 @@ class App extends Component {
                 { nav: "/", component: ChartContainer},
                 { nav: "overview", component: ChartContainer}, 
                 { nav: "activity", component: ActivityContainer}, 
-                { nav: "station_analysis", component: StationContainer}, 
                 { nav: "clustering", component: ClusterContainer}, 
                 { nav: "prediction", component: PredictionContainer}
             ]

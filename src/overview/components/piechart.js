@@ -28,9 +28,13 @@ class PieChart extends Component {
                 formatter: "{a} <br/>{b}: {c} ({d}%)"
             },
             legend: {
-                orient: 'horizontal',
+                orient: 'vertical',
                 x: 'left',
-                data:["12~21", "21~35", "35~55", "55-75", ">75"]
+                top: 40,
+                data:["12~21", "21~35", "35~55", "55-75", ">75"],
+                textStyle: {
+                    color: '#eee'
+                }
             },
             series: [
                 {
@@ -74,7 +78,7 @@ class PieChart extends Component {
             <ReactEcharts
                 option={this.getOption()}
                 lazyUpdate={true}
-                style={{height: '300px', width: '30vw'}}
+                style={{height: '300px', width: '20vw'}}
                 theme={"my_theme"}
                 className={"pie-chart"}
                 showLoading={false}
