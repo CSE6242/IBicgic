@@ -44,7 +44,7 @@ class ChartContainer extends Component {
 		<PieChartUrl dataurl="https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=usertype"
 	    id="#usertype2" config={{key: function(d){return d["userType"];}, value: function(d){return d["sumtrip"];}, slicesCap:8}}/>
 		<PieChartUrl dataurl="https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=age"
-	    id="#userage" config={{key: function(d){return d["age"];}, value: function(d){return d["countUTP"];}}} />
+	    id="#userage" config={{key: function(d){return "age " + d["age"];}, value: function(d){return d["countUTP"];}}} />
 		<PieChartUrl dataurl="https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=gender"
 	    id="#usergender" config={{key: function(d) {return d.gender===1?"Male":"Female";}, value: function(d) {return d["sumtrip"];}}} />
 		<TablePopular dataurl="https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=hotstation" id="#tablepopular"/>

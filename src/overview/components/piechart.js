@@ -15,6 +15,7 @@ export class PieChartUrl extends Component {
 
     update(data)
     {
+	if (data === undefined) return;
 	console.log("this.id is " + this.id);
 	console.log(data);
 	let chart = dc.pieChart(this.id);
@@ -22,7 +23,8 @@ export class PieChartUrl extends Component {
 	let config = this.config;
 	let runDimension  = ndx.dimension(config.key);
 	let speedSumGroup = runDimension.group().reduceSum(config.value);
-
+	let f = config.key_text_modifier;
+	if (f === undefined) f = function(i){return i;};
 	chart
 	    .width(768)
 	    .height(480)
@@ -35,7 +37,7 @@ export class PieChartUrl extends Component {
 	    .on('pretransition', function(chart) {
 	    	chart.selectAll('text.pie-slice').text(function(d) {
 		    console.log("click!", d, "my id is ", this.id);
-		    return d.data.key + ' ' + dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100) + '%';
+		    return f(d.data.key) + ' ' + dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100) + '%';
 	    	});
 	    })
 	;
@@ -47,7 +49,29 @@ export class PieChartUrl extends Component {
 	    this.update(res.data);
 	});
 	return null;
-    }    
+    }
 }
+
+// export class PieChartUrl extends Component {
+//     constructor(props){
+//         super(props);
+// 	this.id = props.id;
+// 	this.config = props.config;
+// 	if (!this.config.slicesCap)
+// 	    this.config.slicesCap = 20;
+// 	this.state = {};
+//     }
+
+//     update (d) {
+// 	this.setState({data:d});
+//     }
+
+//     render () {
+// 	axios.get(this.props.dataurl).then((res)=>{
+// 	    this.update(res.data);
+// 	});
+// 	return (<PieChartUrlReal id={this.id} data={this.state.data} config={this.config}/>);
+//     }    
+// }
 
 export default PieChartUrl;
