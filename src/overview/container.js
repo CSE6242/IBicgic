@@ -9,7 +9,7 @@ class ChartContainer extends Component {
 
     constructor(props) {
 	super (props);
-	this.state = {data: d3.range(20).map(function(d) { return {"y": d3.randomUniform(1)() }; })};
+	this.state = {data: d3.range(5).map(function(d) { return d3.randomUniform(1)(); })};
     }
 
     componentDidMount() {
@@ -20,7 +20,7 @@ class ChartContainer extends Component {
     }
 
     tick() {
-	this.setState({data: d3.range(20).map(function(d) { return {"y": d3.randomUniform(1)() }; })});
+	this.setState({data: d3.range(5).map(function(d) { return d3.randomUniform(1)(); })});
     }
 
     componentWillUnmount() {
