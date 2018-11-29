@@ -1,20 +1,4 @@
-.area {
-    fill: steelblue;
-    clip-path: url(#clip);
-}
-
-.zoom {
-    cursor: move;
-    fill: none;
-    pointer-events: all;
-}
-
-.rect {
-    fill: steelblue;
-    clip-path: url(#clip);
-}
-
-.rectContext {
-    fill: steelblue;
-    clip-path: url(#clip);
+.brush-chart-container {
+    width: 100%;
+    height: 100%;
 }
