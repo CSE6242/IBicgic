@@ -52,7 +52,7 @@ class MoveChart extends Component {
             .renderHorizontalGridLines(true)
             .legend(dc.legend().x(800).y(10).itemHeight(13).gap(5))
             .brushOn(false)
-            .group(volumeByDayGroup, 'TTT')
+            .group(volumeByDayGroup, '# rides')
 	;
 
 	volumeChart.width(990)
