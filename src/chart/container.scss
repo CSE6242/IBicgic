@@ -8,3 +8,13 @@
     fill: none;
     pointer-events: all;
 }
+
+.rect {
+    fill: steelblue;
+    clip-path: url(#clip);
+}
+
+.rectContext {
+    fill: steelblue;
+    clip-path: url(#clip);
+}
