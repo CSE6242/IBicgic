@@ -150,7 +150,7 @@ class BarChart3 extends Component {
 	    console.log(selection);
 	    console.log(width);
 	    x.domain(selection.map(x2.invert, x2));
-	    focus.selectAll(".rect")
+	    focus.selectAll(".rect").transition().duration(750)
 		.attr("x", function(d) { return x(d.date); })
 		.attr("y", function(d) { return y(d.price); })
 	    	.attr("width", function(d) { return width / data.length * width / (selection[1]-selection[0]); })
@@ -188,8 +188,8 @@ class BarChart3 extends Component {
 	    .attr("transform", "translate(0," + height2 + ")")
 	    .call(xAxis2);
 	d3.select(".brush")
-	    .call(brush)
-	    .call(brush.move, x.range());
+	    .call(brush);
+	    // .call(brush.move, x.range());
 
 	function brushed() {
 	    var selection = d3.event.selection;
