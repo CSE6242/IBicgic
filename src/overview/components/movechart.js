@@ -29,7 +29,7 @@ class MoveChart extends Component {
 
 	console.log(this.id1+"---"+this.id2);
 	let moveChart =   dc.barChart(this.id1);
-	let volumeChart = dc.barChart(this.id2);
+	let volumeChart = dc.lineChart(this.id2);
 	var moveDay = ndx.dimension(function (d) {
             return d.day;
 	});
@@ -56,15 +56,16 @@ class MoveChart extends Component {
 	;
 
 	volumeChart.width(990)
-        .height(40)
-        .margins({top: 0, right: 50, bottom: 20, left: 40})
-        .dimension(moveDay)
-        .group(volumeByDayGroup)
-        .centerBar(true)
-        .gap(1)
-        .x(d3.scaleTime().domain([new Date(2016, 10, 1), new Date(2017, 3, 31)]))
-        .round(d3.timeDay.round)
-        .alwaysUseRounding(true)
+	    .renderArea(true)
+            .height(40)
+            .margins({top: 0, right: 50, bottom: 20, left: 40})
+            .dimension(moveDay)
+            .group(volumeByDayGroup)
+            .mouseZoomable(true)//        .centerBar(true)
+             // .gap(1)
+            .x(d3.scaleTime().domain([new Date(2016, 10, 1), new Date(2017, 3, 31)]))
+            .round(d3.timeDay.round)
+            //.alwaysUseRounding(true)
             .xUnits(d3.timeDay);
 
 	dc.renderAll();
