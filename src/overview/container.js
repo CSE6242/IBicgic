@@ -16,17 +16,6 @@ class ChartContainer extends Component {
 	};
     }
 
-    componentDidMount() {
-        axios.get('https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/all-use?divide_by=day')
-            .then((res) => {
-		console.log(res.data);
-		this.setState({data: res.data});
-            });
-
-	/*
-	*/
-    }
-
     render() {
         return (
 		<div className="brush-chart-container" data={this.state.data}>
@@ -40,7 +29,11 @@ class ChartContainer extends Component {
 		<div className='barchart' id="volumechart" />
 		<div className='barchart' id="barchart1" />
 		<div className='barchart' id="barchart2" />
+<<<<<<< HEAD
         <BrushChart data={this.state.data}/>
+=======
+                <BrushChart dataurl='https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/all-use?divide_by=day'/>
+>>>>>>> 147439d974977a67cc8cafb543bbd6a693684273
 		<PieChartUrl dataurl="https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=usertype"
 	    id="#usertype2" config={{key: function(d){return d["userType"];}, value: function(d){return d["sumtrip"];}, slicesCap:8}}/>
 		<PieChartUrl dataurl="https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=age"
