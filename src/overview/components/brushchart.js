@@ -188,8 +188,8 @@ class BrushChart extends Component {
             .attr("transform", "translate(0," + height2 + ")")
             .call(xAxis2);
         d3.select(".brush")
-            .call(brush);
-            // .call(brush.move, x.range());
+            .call(brush)
+            .call(brush.move, x.range());
 
         function brushed() {
             var selection = d3.event.selection;
@@ -199,7 +199,7 @@ class BrushChart extends Component {
             d3.select(".focus").selectAll(".rect")
                 .attr("x", function(d) { return x(d.date); })
                 .attr("y", function(d) { return y(d.price); })
-                    .attr("width", function(d) { return width / data.length * width / (selection[1]-selection[0]); })
+                .attr("width", function(d) { return width / data.length * width / (selection[1]-selection[0]); })
                 .attr("height", function(d) { return height - y(d.price); });
             d3.select(".focus").select(".axis--x").call(xAxis);
         }
