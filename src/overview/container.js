@@ -4,7 +4,6 @@ import PieChartUrl from './components/piechart';
 import MoveChart from './components/movechart';
 import BarChart, { RowChart } from './components/barchart';
 import TablePopular from './components/table';
-import axios from 'axios';
 
 import './container.scss';
 
@@ -29,11 +28,7 @@ class ChartContainer extends Component {
 		<div className='barchart' id="volumechart" />
 		<div className='barchart' id="barchart1" />
 		<div className='barchart' id="barchart2" />
-<<<<<<< HEAD
-        <BrushChart data={this.state.data}/>
-=======
-                <BrushChart dataurl='https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/all-use?divide_by=day'/>
->>>>>>> 147439d974977a67cc8cafb543bbd6a693684273
+        <BrushChart dataurl='https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/all-use?divide_by=day'/>
 		<PieChartUrl dataurl="https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=usertype"
 	    id="#usertype2" config={{key: function(d){return d["userType"];}, value: function(d){return d["sumtrip"];}, slicesCap:8}}/>
 		<PieChartUrl dataurl="https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=age"
