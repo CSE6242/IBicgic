@@ -24,6 +24,7 @@ export class PieChartUrl extends Component {
 	let runDimension  = ndx.dimension(config.key);
 	let speedSumGroup = runDimension.group().reduceSum(config.value);
 	let f = config.key_text_modifier;
+	let id = this.id;
 	if (f === undefined) f = function(i){return i;};
 	chart
 	    .width(768)
@@ -36,7 +37,7 @@ export class PieChartUrl extends Component {
 	    .legend(dc.legend())
 	    .on('pretransition', function(chart) {
 	    	chart.selectAll('text.pie-slice').text(function(d) {
-		    console.log("click!", d, "my id is ", this.id);
+		    console.log("click!", d, "my id is ", id);
 		    return f(d.data.key) + ' ' + dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100) + '%';
 	    	});
 	    })
