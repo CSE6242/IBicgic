@@ -11,7 +11,9 @@ class ActivityContainer extends Component {
     }
     render() {
         return (
-            <HeatMap />
+            <div className="container">
+                <HeatMap />
+            </div>
         );
     }
 }

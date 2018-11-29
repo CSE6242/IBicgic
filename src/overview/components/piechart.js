@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import * as d3 from 'd3';
+import { Component } from 'react';
 import * as dc from 'dc';
 import * as crossfilter from 'crossfilter';
 import axios from 'axios';

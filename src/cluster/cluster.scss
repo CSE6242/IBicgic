@@ -1,35 +1,43 @@
 .legend {
     position: absolute;
-    top: 3rem;
+    top: 1rem;
     right: 1rem;
     z-index: 1000;
+    padding: 0.5rem 1rem;
+    background: rgba(60, 65, 80, 0.8);
+    border: 1.5px solid #262932;
+    border-radius: 5px;
+}
+
+.legend-group {
+    list-style: none;
 }
 
 .legend-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    margin: 0.3rem 0;
+}
 
+.legend-item.hide {
+    opacity: 0.2;
 }
 
 .legend-color {
     display: inline-block;
-}
-
-#item-color1 {
-    background: '#01aced'
-}
-
-#item-color2 {
-    background: '#d95350'
-}
-
-#item-color3 {
-    background: '#eea032'
-}
-
-#item-color4 {
-    background: '#5db75c';
+    border-radius: 3px;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
 }
 
 .legend-text {
-    display: inline-block;
-    color: '#8f9ab9';
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 400;
 }

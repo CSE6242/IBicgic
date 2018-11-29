@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BrushChart from './components/brushchart';
-import PieChart, {PieChartUrlUserType, PieChartUrlUserAge, PieChartUrlUserGender} from './components/piechart';
+import {PieChartUrlUserType, PieChartUrlUserAge, PieChartUrlUserGender} from './components/piechart';
 import TablePopular from './components/table';
 import axios from 'axios';
 

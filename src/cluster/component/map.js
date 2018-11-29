@@ -24,25 +24,28 @@ class MyMap extends Component {
             access_token: 'pk.eyJ1IjoicGFuZGFpY2UiLCJhIjoiY2pwMXFhMHhkMzJubzNwbzlzb2NzZTBrayJ9.cY3fFygLo3IzTHTdW9xyPw'
         }).addTo(myMap);
         this.props.data.map((d) => {
-            let marker = L.circleMarker([d.startStationLatitude, d.startStationLongitude], {
-                radius: this.state.radius,
-                color: this.state.color[d.stationType],
-                weight: 2,
-                fillColor: this.state.color[d.stationType],
-                fillOpacity: 0.75
-            }).addTo(myMap)
-            .on('mouseover', () => {
-                marker.setRadius(15);
-                marker.setStyle({
-                    fillOpacity: 1
-                })
-            })
-            .on('mouseout', () => {
-                marker.setRadius(this.state.radius);
-                marker.setStyle({
+                let marker = L.circleMarker([d.startStationLatitude, d.startStationLongitude], {
+                    radius: this.state.radius,
+                    color: this.state.color[d.stationType],
+                    weight: 2,
+                    fillColor: this.state.color[d.stationType],
                     fillOpacity: 0.75
+                }).addTo(myMap)
+                .bindTooltip(`<strong>${d.startStationName}</strong>`, {
+                    direction: 'top'
                 })
-            });
+                .on('mouseover', () => {
+                    marker.setRadius(15);
+                    marker.setStyle({
+                        fillOpacity: 1
+                    })
+                })
+                .on('mouseout', () => {
+                    marker.setRadius(this.state.radius);
+                    marker.setStyle({
+                        fillOpacity: 0.75
+                    })
+                });
             return this;
         });
     }

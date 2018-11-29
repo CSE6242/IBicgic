@@ -1,29 +1,36 @@
 import React, {Component} from 'react';
 
 class Legend extends Component {
+    constructor() {
+        super();
+        this.state={
+            textcolor: {
+                color: '#8e9ab9'
+            }
+        }
+    }
+
+    handleClick(id) {
+        let active = this.props.legend[id-1].active;
+        this.props.changeState(id, !active);    
+    }
+
     render() {
         return (
             <div className="legend">
-                <div className="legend-item">
-                    <div className="legend-color" id="legend-color1">
-                    </div>
-                    <div><span>Cluster1</span></div>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-color" id="legend-color2">
-                    </div>
-                    <div className="legend-text"><span>Cluster2</span></div>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-color" id="legend-color3">
-                    </div>
-                    <div><span>Cluster3</span></div>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-color" id="legend-color4">
-                    </div>
-                    <div><span>Cluster4</span></div>
-                </div>
+                <ul className="legend-group">
+                    {
+                        this.props.legend.map((d, i) => {
+                            return (
+                                <li className={d.active === true ? "legend-item" : "legend-item hide"} onClick={this.handleClick.bind(this, d.id)} key={i}>
+                                    <div className="legend-color" style={d.color}>
+                                    </div>
+                                    <span className="legend-text" style={this.state.textcolor}>Cluster{d.id}</span>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
             </div>
         )
     }
