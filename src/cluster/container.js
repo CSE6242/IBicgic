@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import MyMap from './component/map';
-import axios from 'axios';
+import Legend from './component/legend';
+import data from './component/cluster_data';
+
+import './cluster.scss';
 
 class ClusterContainer extends Component {
-
-    componentDidMount() {
-        axios.get('https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/two_res/select-all?select_num_of_rows=2')
-            .then((res) => {
-                console.log(res.data);
-            })
+    constructor() {
+        super();
+        this.state={
+            cluster: data
+        };
     }
+
     render() {
         return (
-            <MyMap />
-        );
+            <div className="cluster-container">
+                <MyMap data={this.state.cluster} />
+                <Legend />
+            </div>
+        )
     }
 }
 

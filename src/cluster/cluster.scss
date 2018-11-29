@@ -1,0 +1,35 @@
+.legend {
+    position: absolute;
+    top: 3rem;
+    right: 1rem;
+    z-index: 1000;
+}
+
+.legend-item {
+
+}
+
+.legend-color {
+    display: inline-block;
+}
+
+#item-color1 {
+    background: '#01aced'
+}
+
+#item-color2 {
+    background: '#d95350'
+}
+
+#item-color3 {
+    background: '#eea032'
+}
+
+#item-color4 {
+    background: '#5db75c';
+}
+
+.legend-text {
+    display: inline-block;
+    color: '#8f9ab9';
+}
