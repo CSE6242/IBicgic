@@ -5,7 +5,6 @@ import Main from './shared/main/main';
 
 import ChartContainer from './overview/container';
 import ActivityContainer from './activity/container';
-import TripContainer from './trip/container';
 import StationContainer from './station/container';
 import ClusterContainer from './cluster/container';
 import PredictionContainer from './prediction/container';
@@ -18,9 +17,9 @@ class App extends Component {
         super();
         this.state={
             route: [
+                { nav: "/", component: ChartContainer},
                 { nav: "overview", component: ChartContainer}, 
                 { nav: "activity", component: ActivityContainer}, 
-                { nav: "daily_trip", component: TripContainer}, 
                 { nav: "station_analysis", component: StationContainer}, 
                 { nav: "clustering", component: ClusterContainer}, 
                 { nav: "prediction", component: PredictionContainer}
@@ -31,7 +30,7 @@ class App extends Component {
     render() {   
         return (
             <div className="App">
-                <Header menu={this.state.route} />
+                <Header menu={this.state.route.slice(1)} />
                 <Main route={this.state.route} />
             </div>
         );

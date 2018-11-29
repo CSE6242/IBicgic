@@ -1,77 +1,86 @@
-import { Component } from 'react';
-import * as dc from 'dc';
-import * as crossfilter from 'crossfilter';
-import axios from 'axios';
+import React, { Component } from 'react';
+import ReactEcharts from 'echarts-for-react';
+import echarts from 'echarts';
+import * as _ from 'lodash';
 
-export class PieChartUrl extends Component {
-    constructor(props){
-        super(props);
-	this.id = props.id;
-	this.config = props.config;
-	if (!this.config.slicesCap)
-	    this.config.slicesCap = 20;
+class PieChart extends Component {
+    constructor() {
+        super();
+        this.state={
+            params: []
+        }
+        echarts.registerTheme('my_theme', {
+            backgroundColor: '#262932'
+        });
     }
 
-    update(data)
-    {
-	if (data === undefined) return;
-	console.log("this.id is " + this.id);
-	console.log(data);
-	let chart = dc.pieChart(this.id);
-	let ndx = crossfilter(data);
-	let config = this.config;
-	let runDimension  = ndx.dimension(config.key);
-	let speedSumGroup = runDimension.group().reduceSum(config.value);
-	let f = config.key_text_modifier;
-	let id = this.id;
-	if (f === undefined) f = function(i){return i;};
-	chart
-	    .width(768)
-	    .height(480)
-	    .slicesCap(config.slicesCap)
-	    .innerRadius(100)
-	    .emptyTitle("empty")
-	    .dimension(runDimension)
-	    .group(speedSumGroup)
-	    .legend(dc.legend())
-	    .on('pretransition', function(chart) {
-	    	chart.selectAll('text.pie-slice').text(function(d) {
-		    console.log("click!", d, "my id is ", id);
-		    return f(d.data.key) + ' ' + dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100) + '%';
-	    	});
-	    })
-	;
-	chart.render();
+    getOption() {
+        return {
+            title: {
+                text: 'Usage by Age',
+                top: 20,
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'horizontal',
+                x: 'left',
+                data:["12~21", "21~35", "35~55", "55-75", ">75"]
+            },
+            series: [
+                {
+                    name:'age',
+                    type:'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:[
+                        {value:44141848, name:'12-21'},
+                        {value:1686292083, name:'21-35'},
+                        {value:1858214232, name:'35-55'},
+                        {value: 556505299, name:'55-75'},
+                        {value: 4145153462, name:'>75'}
+                    ]
+                }
+            ]
+            
+        };
     }
 
-    render () {
-	axios.get(this.props.dataurl).then((res)=>{
-	    this.update(res.data);
-	});
-	return null;
+    render() {
+        return (
+            <ReactEcharts
+                option={this.getOption()}
+                lazyUpdate={true}
+                style={{height: '300px', width: '30vw'}}
+                theme={"my_theme"}
+                className={"pie-chart"}
+                showLoading={false}
+            />
+        )
     }
 }
 
-// export class PieChartUrl extends Component {
-//     constructor(props){
-//         super(props);
-// 	this.id = props.id;
-// 	this.config = props.config;
-// 	if (!this.config.slicesCap)
-// 	    this.config.slicesCap = 20;
-// 	this.state = {};
-//     }
-
-//     update (d) {
-// 	this.setState({data:d});
-//     }
-
-//     render () {
-// 	axios.get(this.props.dataurl).then((res)=>{
-// 	    this.update(res.data);
-// 	});
-// 	return (<PieChartUrlReal id={this.id} data={this.state.data} config={this.config}/>);
-//     }    
-// }
-
-export default PieChartUrl;
+export default PieChart;

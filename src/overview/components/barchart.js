@@ -1,101 +1,120 @@
-import { Component } from 'react';
-import * as d3 from 'd3';
-import * as dc from 'dc';
-import * as crossfilter from 'crossfilter';
-import axios from 'axios';
+import React, { Component } from 'react';
+import ReactEcharts from 'echarts-for-react';
+import echarts from 'echarts';
 
 class BarChart extends Component {
-    constructor(props){
-        super(props);
-		this.id = props.id;
-    }
-    
-    update(data) {
-	if (data === undefined)
-	    return;
-	console.log(data);
-        let chart = dc.barChart(this.id);
-	var dateFormatSpecifier = '%Y-%m-%d';
-	var dateFormat = d3.timeFormat(dateFormatSpecifier);
-	var dateFormatParser = d3.timeParse(dateFormatSpecifier);
-	data.forEach(function (d) {
-            d.dd = dateFormatParser(d.datedata);
-            d.day = d3.timeDay(d.dd);
-	});
-
-	var ndx                 = crossfilter(data),
-	    runDimension        = ndx.dimension(function(d) {return +d.gender;}),
-	    speedSumGroup       = runDimension.group().reduceSum(function(d) {return d.sumtrip;});
-	chart
-	    .width(768)
-	    .height(480)
-        //.x(d3.scaleLinear().domain(d3.extent(data.map(function(d){return d.gender;}))))
-	    .x(d3.scaleLinear().domain([1,3]))
-	    .brushOn(false)
-	    .yAxisLabel("This is the Y Axis!")
-	    .dimension(runDimension)
-	    .group(speedSumGroup)
-	    .on('renderlet', function(chart) {
-		chart.selectAll('rect').on("click", function(d) {
-		    console.log("click!", d);
-		});
-	    });
-	chart.render();
-    }
-    render(){
-	axios.get(this.props.dataurl).then((res)=>{
-	    this.update(res.data);
-	});
-	return null;
+    constructor() {
+        super();
+        this.state={
+            params: []
+        }
+        echarts.registerTheme('my_theme', {
+            backgroundColor: '#262932'
+        });
     }
 
-}
-
-
-export class RowChart extends Component {
-    constructor(props){
-        super(props);
-	this.id = props.id;
+    getOption() {
+        let dataAxis = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '19', '20', '21', '22', '23'];
+        let data = [47970, 15099, 9247, 9697, 37332, 135196, 295057, 521677, 390009, 264272, 267234, 308932, 327863, 343513, 363885, 419021, 568875, 522586, 344298, 231571, 163890, 123029, 80027];
+        let dataShadow = [];
+        for (let i = 0; i < data.length; i++) {
+            dataShadow.push(500);
+        }
+        return {
+            title: {
+                text: 'Usage by Hour',
+                top: 25,
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            xAxis: {
+                data: dataAxis,
+                axisLabel: {
+                    inside: true,
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    show: false
+                },
+                z: 10
+            },
+            yAxis: {
+                axisLine: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            dataZoom: [
+                {
+                    type: 'inside'
+                }
+            ],
+            series: [
+                {
+                    type: 'bar',
+                    itemStyle: {
+                        normal: {color: 'rgba(0,0,0,0.05)'}
+                    },
+                    barGap:'-100%',
+                    barCategoryGap:'40%',
+                    data: dataShadow,
+                    animation: false
+                },
+                {
+                    type: 'bar',
+                    itemStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(
+                                0, 0, 0, 1,
+                                [
+                                    {offset: 0, color: '#83bff6'},
+                                    {offset: 0.5, color: '#188df0'},
+                                    {offset: 1, color: '#188df0'}
+                                ]
+                            )
+                        },
+                        emphasis: {
+                            color: new echarts.graphic.LinearGradient(
+                                0, 0, 0, 1,
+                                [
+                                    {offset: 0, color: '#2378f7'},
+                                    {offset: 0.7, color: '#2378f7'},
+                                    {offset: 1, color: '#83bff6'}
+                                ]
+                            )
+                        }
+                    },
+                    data: data
+                }
+            ]
+        };
     }
-    
-    update(data) {
-	if (data === undefined)
-	    return;
-	console.log(data);
-        let chart = dc.rowChart(this.id);
-	var dateFormatSpecifier = '%Y-%m-%d';
-	var dateFormat = d3.timeFormat(dateFormatSpecifier);
-	var dateFormatParser = d3.timeParse(dateFormatSpecifier);
-	data.forEach(function (d) {
-            d.dd = dateFormatParser(d.datedata);
-            d.day = d3.timeDay(d.dd);
-	});
 
-	var ndx                 = crossfilter(data),
-	    runDimension        = ndx.dimension(function(d) {return +d.gender;}),
-	    speedSumGroup       = runDimension.group().reduceSum(function(d) {return d.sumtrip;});
-	chart
-	    .width(768)
-	    .height(480)
-        //.x(d3.scaleLinear().domain(d3.extent(data.map(function(d){return d.gender;}))))
-	    .x(d3.scaleLinear().domain([1,3]))
-	    .elasticX(true)
-	    .dimension(runDimension)
-	    .group(speedSumGroup)
-	    .on('renderlet', function(chart) {
-		chart.selectAll('rect').on("click", function(d) {
-		    console.log("click!", d);
-		});
-	    });
-	chart.render();
+    render() {
+        return (
+            <ReactEcharts
+                option={this.getOption()}
+                lazyUpdate={true}
+                style={{height: '300px', width: '30vw'}}
+                theme={"my_theme"}
+                className={"bar-chart"}
+                showLoading={false}
+            />
+        )
     }
-    render(){
-	axios.get(this.props.dataurl).then((res)=>{
-	    this.update(res.data);
-	});
-	return null;
-    }
-
 }
 
 export default BarChart;

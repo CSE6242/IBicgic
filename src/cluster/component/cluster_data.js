@@ -1,4 +1,4 @@
-var data = [{
+const data = [{
         startStationId: 471,
         startStationName: "Grand St & Havemeyer St",
         startStationLatitude: 40.7129,

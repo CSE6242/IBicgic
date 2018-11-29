@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import HeatMap from './component/map';
 import axios from 'axios';
+import './activity.scss';
 
 class ActivityContainer extends Component {
 
