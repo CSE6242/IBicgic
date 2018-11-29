@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 
-export class PieChart extends Component {
+export class LineChart extends Component {
 
     constructor(props){
         super(props);
@@ -13,7 +13,7 @@ export class PieChart extends Component {
             height = 500 - margin.top - margin.bottom;
 
 	// 1. Add the SVG to the page and employ #2
-	var svg = d3.select("body").append("svg").attr("class","piechartsvg")
+	var svg = d3.select("body").append("svg").attr("class","linechartsvg")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom)
 	    .append("g")
@@ -40,7 +40,7 @@ export class PieChart extends Component {
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
-	let svg = d3.select(".piechartsvg");
+	let svg = d3.select(".linechartsvg");
 
 	var xScale = d3.scaleLinear()
 	    .domain([0, n-1]) // input
@@ -92,4 +92,4 @@ export class PieChart extends Component {
     }
 }
 
-export default PieChart;
+export default LineChart;
