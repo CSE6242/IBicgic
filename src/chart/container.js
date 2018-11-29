@@ -11,6 +11,87 @@ class BarChart3 extends Component {
 	// this.enterUpdateContext = this.enterUpdateContext.bind(this);
     }
 
+    enterUpdate (raw_data) {
+	let parsed_data = d3.csvParse(raw_data, function (d) { d.date = d3.timeParse("%b %Y")(d.date); d.price = +d.price; return d; } );
+	let data = parsed_data;
+
+	var margin = {top: 20, right: 20, bottom: 110, left: 50},
+	    margin2 = {top: 430, right: 20, bottom: 30, left: 40},
+	    width = 960 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom,
+	    height2 = 500 - margin2.top - margin2.bottom;
+	var x = d3.scaleTime().range([0, width]).domain(d3.extent(data, function(d) { return d.date; })),
+	    y = d3.scaleLinear().range([height, 0]).domain([0, d3.max(data, function(d) { return d.price; })+200]),
+	    x2 = d3.scaleTime().range([0, width]).domain(x.domain()),
+	    y2 = d3.scaleLinear().range([height2, 0]).domain(y.domain());
+
+	let grp = d3.select("#main_area");
+	// let circles = grp.selectAll(".dot")
+	//     .data(data);
+	// circles.enter()
+	//     .append("circle")
+	//     .attr('class', 'dot')
+	//     .attr("r",5)
+	//     .style("opacity", .5)
+	//     .attr("cx", function(d) { return x(d.date); })
+	//     .attr("cy", function(d) { return y(d.price); });
+	// circles
+	//     .attr("cx", function(d) { return x(d.date); })
+	//     .attr("cy", function(d) { return y(d.price); });
+	// circles.exit().remove();
+	let rects = grp.selectAll(".rect")
+	    .data(data);
+	rects.enter()
+	    .append("rect")
+	    .attr('class', 'rect')
+	    .style("opacity", .5)
+	    .attr("width", function(d) { return width / data.length; })
+	    .attr("height", function(d) { return height - y(d.price); })
+	    .attr("x", function(d) { return x(d.date); })
+	    .attr("y", function(d) { return y(d.price); });
+	rects
+	    .attr("width", function(d) { return width / data.length; })
+	    .attr("height", function(d) { return height - y(d.price); })
+	    .attr("x", function(d) { return x(d.date); })
+	    .attr("y", function(d) { return y(d.price); });
+	rects.exit().remove();
+    }
+
+
+    enterUpdateContext(raw_data) {
+	let parsed_data = d3.csvParse(raw_data, function (d) { d.date = d3.timeParse("%b %Y")(d.date); d.price = +d.price; return d; } );
+	let data = parsed_data;
+
+	var margin = {top: 20, right: 20, bottom: 110, left: 50},
+	    margin2 = {top: 430, right: 20, bottom: 30, left: 40},
+	    width = 960 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom,
+	    height2 = 500 - margin2.top - margin2.bottom;
+	var parseDate = d3.timeParse("%b %Y");
+	var x = d3.scaleTime().range([0, width]).domain(d3.extent(data, function(d) { return d.date; })),
+	    y = d3.scaleLinear().range([height, 0]).domain([0, d3.max(data, function(d) { return d.price; })+200]),
+	    x2 = d3.scaleTime().range([0, width]).domain(x.domain()),
+	    y2 = d3.scaleLinear().range([height2, 0]).domain(y.domain());
+	let grp = d3.select("#context_area");
+	// grp.selectAll(".dotContext")
+	//     .data(data)
+	//     .enter().append("circle")
+	//     .attr('class', 'dotContext')
+	//     .attr("r",3)
+	//     .style("opacity", .5)
+	//     .attr("cx", function(d) { return x2(d.date); })
+	//     .attr("cy", function(d) { return y2(d.price); });
+	grp.selectAll("rect")
+	    .data(data)
+	    .enter().append("rect")
+	    .attr('class', 'rectContext')
+	    .attr("width", function(d) { return 5; })
+	    .attr("height", function(d) { return height2 - y2(d.price); })
+	    .style("opacity", .5)
+	    .attr("x", function(d) { return x2(d.date); })
+	    .attr("y", function(d) { return y2(d.price); });
+    };
+
     componentDidMount(){
 	var margin = {top: 20, right: 20, bottom: 110, left: 50},
 	    margin2 = {top: 430, right: 20, bottom: 30, left: 40},
@@ -42,66 +123,10 @@ class BarChart3 extends Component {
 	var context = svg.append("g")
 	    .attr("class", "context")
 	    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+	let raw_data = this.props.data;
 	let parsed_data = d3.csvParse(this.props.data, 	function (d) { d.date = parseDate(d.date); d.price = +d.price; return d; } );
 	let data = parsed_data;
 
-	let enterUpdate = function(grp,data){
-	    x.domain(d3.extent(data, function(d) { return d.date; }));
-	    y.domain([0, d3.max(data, function(d) { return d.price; })+200]);
-	    x2.domain(x.domain());
-	    y2.domain(y.domain());
-	    let circles = grp.selectAll("dot")
-		.data(data);
-	    circles.enter()
-		.append("circle")
-		.attr('class', 'dot')
-		.attr("r",5)
-		.style("opacity", .5)
-		.attr("cx", function(d) { return x(d.date); })
-		.attr("cy", function(d) { return y(d.price); });
-	    circles
-		.attr("cx", function(d) { return x(d.date); })
-		.attr("cy", function(d) { return y(d.price); });
-	    circles.exit().remove();
-	    let rects = grp.selectAll("rect")
-		.data(data);
-	    rects.enter()
-		.append("rect")
-		.attr('class', 'rect')
-		.style("opacity", .5)
-	    	.attr("width", function(d) { return width / data.length; })
-		.attr("height", function(d) { return height - y(d.price); })
-		.attr("x", function(d) { return x(d.date); })
-		.attr("y", function(d) { return y(d.price); });
-	    rects
-	    	.attr("width", function(d) { return width / data.length; })
-		.attr("height", function(d) { return height - y(d.price); })
-		.attr("x", function(d) { return x(d.date); })
-		.attr("y", function(d) { return y(d.price); });
-	    rects.exit().remove();
-	};
-
-
-	let enterUpdateContext = function(grp, data){
-	    grp.selectAll("dot")
-		.data(data)
-		.enter().append("circle")
-		.attr('class', 'dotContext')
-		.attr("r",3)
-		.style("opacity", .5)
-		.attr("cx", function(d) { return x2(d.date); })
-		.attr("cy", function(d) { return y2(d.price); });
-	    grp.selectAll("rect")
-		.data(data)
-		.enter().append("rect")
-		.attr('class', 'rectContext')
-	    	.attr("width", function(d) { return 5; })
-		.attr("height", function(d) { return height2 - y2(d.price); })
-		.style("opacity", .5)
-		.attr("x", function(d) { return x2(d.date); })
-		.attr("y", function(d) { return y2(d.price); });
-	};
-	// function f(data)
 	{
 	    x.domain(d3.extent(data, function(d) { return d.date; }));
 	    y.domain([0, d3.max(data, function(d) { return d.price; })+200]);
@@ -112,34 +137,21 @@ class BarChart3 extends Component {
 	    main_area.attr("clip-path", "url(#clip)");
 	    main_area.attr("id", "main_area");
 
-	    focus.append("g")
-		.attr("class", "axis axis--x")
-		.attr("transform", "translate(0," + height + ")")
-		.call(xAxis);
-	    focus.append("g")
-		.attr("class", "axis axis--y")
-		.call(yAxis);
+	    focus.append("g").attr("class", "axis axis--x").attr("transform", "translate(0," + height + ")").call(xAxis);
+	    focus.append("g").attr("class", "axis axis--y").call(yAxis); 
+	    focus.append("text").attr("transform", "rotate(-90)").attr("y", 0-margin.left).attr("x",0-(height/2)).attr("dy", "1em").style("text-anchor", "middle").text("Price");  
 	    
-	    focus.append("text")
-		.attr("transform", "rotate(-90)")
-		.attr("y", 0 - margin.left)
-		.attr("x",0 - (height / 2))
-		.attr("dy", "1em")
-		.style("text-anchor", "middle")
-		.text("Price");  
-	    
-	    svg.append("text")             
-		.attr("transform",
-		      "translate(" + ((width + margin.right + margin.left)/2) + " ," + 
-                      (height + margin.top + margin.bottom) + ")")
+	    svg.append("text").attr("transform","translate(" + ((width + margin.right + margin.left)/2) + " ," + (height + margin.top + margin.bottom) + ")")
 		.style("text-anchor", "middle")
 		.text("Date");
 
-	    enterUpdate(main_area, data);
 	    // append scatter plot to brush chart area      
 	    let context_area = context.append("g");
-	    enterUpdateContext(context_area,data);
 	    context_area.attr("clip-path", "url(#clip)");
+	    context_area.attr("id", "context_area");
+
+	    this.enterUpdate(raw_data);
+	    this.enterUpdateContext(raw_data);
             
 	    context.append("g")
 		.attr("class", "axis axis--x")
@@ -171,20 +183,23 @@ class BarChart3 extends Component {
     }
 
     render(){
-	// this.enterUpdate(this.main_area, this.props.data);
-	// this.enterUpdateContext(this.context_area,this.props.data);
+	this.enterUpdate(this.props.data);
+	this.enterUpdateContext(this.props.data);
 	return null;
     }
     
 }
-
+/*
 class BarChart4 extends Component {
 
     constructor(props){
 	super(props);
     }
 
-    enterUpdate(data_in){
+    enterUpdate(data_in_2){
+	let parsed_data = d3.csvParse(data_in_2, function (d) { d.date = d3.timeParse("%b %Y")(d.date); d.price = +d.price; return d; } );
+	let data_in = parsed_data;
+
 	var margin = {top: 20, right: 20, bottom: 110, left: 50},
 	    margin2 = {top: 430, right: 20, bottom: 30, left: 40},
 	    width = 960 - margin.left - margin.right,
@@ -212,6 +227,7 @@ class BarChart4 extends Component {
     };
 
     componentDidMount(){
+	let raw_data = this.props.data;
 	let parsed_data = d3.csvParse(this.props.data, 	function (d) { d.date = d3.timeParse("%b %Y")(d.date); d.price = +d.price; return d; } );
 	let data = parsed_data;
 
@@ -239,28 +255,6 @@ class BarChart4 extends Component {
 	    .attr("class", "context")
 	    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-	
-	// let enterUpdate = function(data_in){
-	//     let x = d3.scaleTime().range([0, width]).domain(d3.extent(data, function(d) { return d.date; }));
-	//     let y = d3.scaleLinear().range([height, 0]).domain([0, d3.max(data, function(d) { return d.price; })+200]);
-	//     let grp = d3.select("#main_area");
-	//     let rects = grp.selectAll("rect").data(data_in);
-	//     rects.enter()
-	// 	.append("rect")
-	// 	.attr('class', 'rect')
-	// 	.style("opacity", .5)
-	//     	.attr("width", function(d) { return width / data.length; })
-	// 	.attr("height", function(d) { return height - y(d.price); })
-	// 	.attr("x", function(d) { return x(d.date); })
-	// 	.attr("y", function(d) { return y(d.price); });
-	//     rects
-	//     	.attr("width", function(d) { return width / data.length; })
-	// 	.attr("height", function(d) { return height - y(d.price); })
-	// 	.attr("x", function(d) { return x(d.date); })
-	// 	.attr("y", function(d) { return y(d.price); });
-	//     rects.exit().remove();
-	// };
-
 	// append scatter plot to main chart area 
 	let main_area = focus.append("g");
 	main_area.attr("clip-path", "url(#clip)");
@@ -277,17 +271,17 @@ class BarChart4 extends Component {
 	    .style("text-anchor", "middle")
 	    .text("Date");
 
-	this.enterUpdate(data);
+	let data_t = data;
+	this.enterUpdate(raw_data);
     }
 
     render(){
-	// this.enterUpdate(this.main_area, this.props.data);
-	// this.enterUpdateContext(this.context_area,this.props.data);
+	this.enterUpdate(this.props.data);
 	return null;
     }
     
 }
-
+*/
 class ChartContainer extends Component {
 
     constructor(props) {
@@ -309,7 +303,7 @@ class ChartContainer extends Component {
     tick() {
 	this.setState(state => {return {
 	    date: new Date(),
-	    data: state.origin_data.split('\n').slice(0, Math.floor(Math.random()*123)).join("\n")
+	    data: state.origin_data.split('\n').slice(0, Math.floor(Math.random()*100) + 5).join("\n")
 	};});
     }
     componentWillUnmount() {
@@ -319,7 +313,7 @@ class ChartContainer extends Component {
     render() {
         return (
             <div>Hello world chart !!
-              <BarChart4 data={this.state.data}/>
+              <BarChart3 data={this.state.data}/>
               It is now {this.state.date.toLocaleTimeString()}.
             </div>
         );
