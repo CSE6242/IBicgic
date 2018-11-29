@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import * as d3 from 'd3';
 import * as dc from 'dc';
 import * as crossfilter from 'crossfilter';
@@ -7,11 +7,11 @@ import axios from 'axios';
 class BarChart extends Component {
     constructor(props){
         super(props);
-	this.id = props.id;
+		this.id = props.id;
     }
     
     update(data) {
-	if (data==undefined)
+	if (data === undefined)
 	    return;
 	console.log(data);
         let chart = dc.barChart(this.id);
@@ -59,7 +59,7 @@ export class RowChart extends Component {
     }
     
     update(data) {
-	if (data==undefined)
+	if (data === undefined)
 	    return;
 	console.log(data);
         let chart = dc.rowChart(this.id);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import * as d3 from 'd3';
 import * as dc from 'dc';
 import * as crossfilter from 'crossfilter';
@@ -12,7 +12,7 @@ class MoveChart extends Component {
     }
     
     update(data) {
-	if (data==undefined)
+	if (data===undefined)
 	    return;
 	console.log(data);
 
