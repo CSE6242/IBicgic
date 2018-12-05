@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts';
-import * as _ from 'lodash';
 
 class PieChart extends Component {
     constructor() {

@@ -5,7 +5,6 @@ import Main from './shared/main/main';
 
 import ChartContainer from './overview/container';
 import ActivityContainer from './activity/container';
-import StationContainer from './station/container';
 import ClusterContainer from './cluster/container';
 import PredictionContainer from './prediction/container';
 
