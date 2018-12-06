@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts';
+import axios from 'axios';
+import * as _ from 'lodash';
 
 class PieChart extends Component {
     constructor() {
         super();
         this.state={
-            params: []
+            datas: []
         }
         echarts.registerTheme('my_theme', {
             backgroundColor: '#262932'
         });
     }
+
+    // componentDidMount() {
+    //     axios.get("https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/riding-count?startDate=2016-10-01&endDate=2017-01-01&type=age")
+    //         .then((res) => {
+    //             let raw_data = res.data;
+    //             let new_data = [];
+    //             _.each(raw_data, (d) => {
+    //                 new_data.push({value: d.value, name: d.name});
+    //             });
+    //             this.setState({
+    //                 datas: new_data
+    //             });
+    //         })
+    // }
 
     getOption() {
         return {
@@ -59,6 +75,7 @@ class PieChart extends Component {
                             show: false
                         }
                     },
+                    // data: this.state.datas;
                     data:[
                         {value:44141848, name:'12-21'},
                         {value:1686292083, name:'21-35'},

@@ -1,20 +1,37 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts';
+import axios from 'axios';
+import * as _ from 'lodash';
 
 class BarChart extends Component {
     constructor() {
         super();
         this.state={
-            params: []
+            datas: []
         }
         echarts.registerTheme('my_theme', {
             backgroundColor: '#262932'
         });
     }
 
+    // componentDidMount() {
+    //     axios.get("https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/all-use?divide_by=hour")
+    //         .then((res) => {
+    //             let raw_data = res.data;
+    //             let new_data = [];
+    //             _.each(raw_data, (d) => {
+    //                 new_data.push(d.value);
+    //             });
+    //             this.setState({
+    //                 datas: new_data
+    //             });
+    //         })
+    // }
+
     getOption() {
         let dataAxis = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '19', '20', '21', '22', '23'];
+        // let data = this.state.data;
         let data = [47970, 15099, 9247, 9697, 37332, 135196, 295057, 521677, 390009, 264272, 267234, 308932, 327863, 343513, 363885, 419021, 568875, 522586, 344298, 231571, 163890, 123029, 80027];
         let dataShadow = [];
         for (let i = 0; i < data.length; i++) {

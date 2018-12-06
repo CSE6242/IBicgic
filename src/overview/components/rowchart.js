@@ -1,19 +1,41 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts';
+import axios from 'axios';
+import * as _ from 'lodash';
 
 class RowChart extends Component {
     constructor() {
         super();
         this.state={
-            params: []
+            in: [],
+            out: []
         }
         echarts.registerTheme('my_theme', {
             backgroundColor: '#262932'
         });
     }
 
+    // componentDidMount() {
+    //     axios.get("https://163fqjo9o1.execute-api.us-east-1.amazonaws.com/NYbike/all-use?divide_by=week")
+    //         .then((res) => {
+    //             let raw_data = res.data;
+    //             let new_data_in = [];
+    //             let new_data_out = [];
+    //             _.each(raw_data, (d) => {
+    //                 new_data_in.push(d.in);
+    //                 new_data_out.push(d.out);
+    //             });
+    //             this.setState({
+    //                 in: new_data_in,
+    //                 out: new_data_out
+    //             });
+    //         })
+    // }
+
     getOption() {
+        // let data1 = this.state.in;
+        // let data2 = this.state.out;
         let data1 = [313622, 441132, 430021, 519287, 469876, 438989, 324824];
         let data2 = [312234, 443221, 430012, 519341, 469801, 438980, 324813];
         return {    

@@ -8,7 +8,7 @@ export default class BrushChart extends Component {
     constructor() {
         super();
         this.state={
-            params: []
+            datas: []
         }
         echarts.registerTheme('my_theme', {
             backgroundColor: '#262932'
